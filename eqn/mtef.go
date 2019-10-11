@@ -31,7 +31,7 @@ type MTEFv5 struct {
 func (m *MTEFv5) readRecord() (err error) {
 	/**
 	读取body的每一行数据并保存到数组里
-	*/
+	 */
 
 	//Header
 	_ = binary.Read(m.reader, binary.LittleEndian, &m.mMtefVer)
@@ -44,7 +44,6 @@ func (m *MTEFv5) readRecord() (err error) {
 
 	//fmt.Println(m.mMtefVer, m.mPlatform, m.mProduct, m.mVersion, m.mVersionSub)
 	//fmt.Println(m.mInline)
-	//fmt.Println(m.reader)
 
 	//Body
 	for {
@@ -112,10 +111,6 @@ func (m *MTEFv5) readRecord() (err error) {
 
 			//读取字节，但是不关心数据，注释
 			//m.nodes = append(m.nodes, &MtAST{FONT_STYLE_DEF, fsDef, nil})
-		case SIZE:
-			mtSize := new(MtSize)
-			_ = binary.Read(m.reader, binary.LittleEndian, &mtSize.lsize)
-			_ = binary.Read(m.reader, binary.LittleEndian, &mtSize.dsize)
 		case SUB:
 			m.nodes = append(m.nodes, &MtAST{SUB, nil, nil})
 		case SUB2:
@@ -318,7 +313,7 @@ func (m *MTEFv5) readEqnPrefs(eqnPrefs *MtEqnPrefs) (err error) {
 	size = 0
 	_ = binary.Read(m.reader, binary.LittleEndian, &size)
 	styles := make([]byte, size)
-	for i := uint8(0); i < size; i++ {
+	for i := uint8(0); i < size; i ++ {
 		c := uint8(0)
 		_ = binary.Read(m.reader, binary.LittleEndian, &c)
 		if c == 0 {
@@ -339,26 +334,18 @@ func (m *MTEFv5) readChar(char *MtChar) (err error) {
 	if MtefOptNudge == MtefOptNudge&options {
 		char.nudgeX, char.nudgeY, _ = m.readNudge()
 	}
-
 	_ = binary.Read(m.reader, binary.LittleEndian, &char.typeface)
 
 	if MtefOptCharEncNoMtcode != MtefOptCharEncNoMtcode&options {
 		_ = binary.Read(m.reader, binary.LittleEndian, &char.mtcode)
 	}
 	if MtefOptCharEncChar8 == MtefOptCharEncChar8&options {
-		//todo 强行设置值，有BUG。。。。。
-		//if char.mtcode >= 34528 {
-		//	_ = binary.Read(m.reader, binary.LittleEndian, &char.bits16)
-		//}else {
 		_ = binary.Read(m.reader, binary.LittleEndian, &char.bits8)
-		//}
 	}
 	if MtefOptCharEncChar16 == MtefOptCharEncChar16&options {
 		_ = binary.Read(m.reader, binary.LittleEndian, &char.bits16)
+
 	}
-
-	//fmt.Println(char)
-
 	return nil
 }
 
@@ -488,7 +475,7 @@ func (m *MTEFv5) Translate() (latex string, err error) {
 func (m *MTEFv5) makeAST() (err error) {
 	/**
 	根据数组生成出栈入栈结构
-	*/
+	 */
 	ast := new(MtAST)
 	ast.tag = 0xff
 	ast.value = nil
@@ -642,7 +629,7 @@ func (m *MTEFv5) makeAST() (err error) {
 func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 	/**
 	根据出栈入栈结构生成latex字符串
-	*/
+	 */
 
 	buf := new(bytes.Buffer)
 
@@ -865,17 +852,17 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 			return buf.String(), nil
 		case tmARROW:
 			/*
-				variation	symbol	description
-				0×0000	tvAR_SINGLE	single arrow
-				0×0001	tvAR_DOUBLE	double arrow
-				0×0002	tvAR_HARPOON	harpoon
-				0×0004	tvAR_TOP	top slot is present
-				0×0008	tvAR_BOTTOM	bottom slot is present
-				0×0010	tvAR_LEFT	if single, arrow points left
-				0×0020	tvAR_RIGHT	if single, arrow points right
-				0×0010	tvAR_LOS	if double or harpoon, large over small
-				0×0020	tvAR_SOL	if double or harpoon, small over large
-			*/
+			variation	symbol	description
+			0×0000	tvAR_SINGLE	single arrow
+			0×0001	tvAR_DOUBLE	double arrow
+			0×0002	tvAR_HARPOON	harpoon
+			0×0004	tvAR_TOP	top slot is present
+			0×0008	tvAR_BOTTOM	bottom slot is present
+			0×0010	tvAR_LEFT	if single, arrow points left
+			0×0020	tvAR_RIGHT	if single, arrow points right
+			0×0010	tvAR_LOS	if double or harpoon, large over small
+			0×0020	tvAR_SOL	if double or harpoon, small over large
+			 */
 			topAST := ast.children[0]
 			bottomAST := ast.children[1]
 
@@ -893,8 +880,8 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 			}
 
 			/*
-				variation转码
-			*/
+			variation转码
+			 */
 			variationsMap := make(map[uint16]string)
 			variationsMap[0x0000] = "single"
 			variationsMap[0x0001] = "double"
@@ -937,8 +924,8 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 				}
 			}
 			/*
-				variation转码 END
-			*/
+			variation转码 END
+			 */
 
 			//组成整体公式
 			tmplStr := fmt.Sprintf("%v %v %v", latexFmt, bottomStr, topStr)
@@ -1091,19 +1078,19 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 			return buf.String(), nil
 		case tmVEC:
 			/*
-				variations：
-				variation	symbol	description
-				0×0001	tvVE_LEFT	arrow points left
-				0×0002	tvVE_RIGHT	arrow points right
-				0×0004	tvVE_UNDER	arrow under slot, else over slot
-				0×0008	tvVE_HARPOON	harpoon
+			variations：
+			variation	symbol	description
+			0×0001	tvVE_LEFT	arrow points left
+			0×0002	tvVE_RIGHT	arrow points right
+			0×0004	tvVE_UNDER	arrow under slot, else over slot
+			0×0008	tvVE_HARPOON	harpoon
 
-				这个转换是通过掩码计算的：
-				比如variation的值是3，即0000 0000 0000 0011
+			这个转换是通过掩码计算的：
+			比如variation的值是3，即0000 0000 0000 0011
 
-				对应的是0×0001和0×0002：
-				0000 0000 0000 0001
-				0000 0000 0000 0010
+			对应的是0×0001和0×0002：
+			0000 0000 0000 0001
+			0000 0000 0000 0010
 			*/
 
 			//读取数据 HatBoxClass
@@ -1119,8 +1106,8 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 			}
 
 			/*
-				variation转码
-			*/
+			variation转码
+			 */
 			variationsMap := make(map[uint16]string)
 			variationsMap[0x0001] = "left"
 			variationsMap[0x0002] = "right"
@@ -1142,8 +1129,8 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 				topStr = topStr + "arrow"
 			}
 			/*
-				variation转码 END
-			*/
+			variation转码 END
+			 */
 
 			//组成整体公式
 			tmplStr := fmt.Sprintf("%v %v", topStr, mainStr)
@@ -1305,7 +1292,7 @@ func Open(reader io.ReadSeeker) (eqn *MTEFv5, err error) {
 				_ = binary.Read(hdrReader, binary.LittleEndian, &cbSize)
 
 				//body from `cbHdr` to `cbHdr + cbSize`
-				eqnBody := make([]byte, cbSize)
+				eqnBody := make([]byte, cbSize);
 				_, _ = reader.Seek(int64(cbHdr), io.SeekStart)
 				_, _ = reader.Read(eqnBody)
 

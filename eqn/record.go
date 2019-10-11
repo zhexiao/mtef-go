@@ -38,7 +38,7 @@ const (
 	MtefOptCharEncChar16   OptionType = 0x10
 	MtefOptCharEncNoMtcode OptionType = 0x20
 	MtefOptLineNull        OptionType = 0x01
-	mtefOPT_LP_RULER       OptionType = 0x02
+	mtefOPT_LP_RULER		OptionType = 0x02
 	MtefOptLineLspace      OptionType = 0x04
 	MtefOptLpRuler         OptionType = 0x02
 	MtefColorCmyk          OptionType = 0x01
@@ -112,11 +112,6 @@ type MtEqnPrefs struct {
 	sizes  []string
 	spaces []string
 	styles []byte
-}
-
-type MtSize struct {
-	lsize uint8
-	dsize uint8
 }
 
 type MtfontStyleDef struct {

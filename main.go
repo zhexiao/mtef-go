@@ -72,8 +72,8 @@ func main() {
 	}
 
 	//转换数据,测试开发使用，需要注释上面的所有代码
-	//startEqn := 1
-	//endEqn := 25
+	//startEqn := 19
+	//endEqn := 19
 	//for i := startEqn; i <= endEqn; i++ {
 	//	pathName := fmt.Sprintf("E:/workspace/goland/src/mtef-go/assets/oleObject%v.bin", i)
 	//	latex := eqn.Convert(pathName)
