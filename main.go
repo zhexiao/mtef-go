@@ -1,13 +1,13 @@
 package main
 
 import (
-	"mtef-go/eqn"
-	"mtef-go/docx"
 	"fmt"
 	"github.com/urfave/cli"
+	"log"
+	"mg-mod/docx"
+	"mg-mod/eqn"
 	"os"
 	"time"
-	"log"
 )
 
 func main() {

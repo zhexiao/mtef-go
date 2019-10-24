@@ -2,12 +2,12 @@ package docx
 
 import (
 	"archive/zip"
-	"os"
-	"path/filepath"
+	"fmt"
 	"io"
 	"io/ioutil"
-	"mtef-go/eqn"
-	"fmt"
+	"mg-mod/eqn"
+	"os"
+	"path/filepath"
 )
 
 type DocxWord struct {
@@ -18,12 +18,12 @@ type DocxWord struct {
 //转换文档
 func (d *DocxWord) ParseDocx() error {
 	err := d.unzip()
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
 	err = d.getLatex()
-	if err != nil{
+	if err != nil {
 		return err
 	}
 

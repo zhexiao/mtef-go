@@ -1,9 +1,9 @@
 package eqn
 
 import (
-	"io/ioutil"
-	"fmt"
 	"bytes"
+	"fmt"
+	"io/ioutil"
 )
 
 func Convert(filepath string) string {
