@@ -1,4 +1,4 @@
-module mg-mod
+module github.com/zhexiao/mtef-go
 
 go 1.13
 

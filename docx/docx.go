@@ -3,9 +3,9 @@ package docx
 import (
 	"archive/zip"
 	"fmt"
+	"github.com/zhexiao/mtef-go/eqn"
 	"io"
 	"io/ioutil"
-	"mg-mod/eqn"
 	"os"
 	"path/filepath"
 )

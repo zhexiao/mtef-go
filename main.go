@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/urfave/cli"
+	"github.com/zhexiao/mtef-go/docx"
+	"github.com/zhexiao/mtef-go/eqn"
 	"log"
-	"mg-mod/docx"
-	"mg-mod/eqn"
 	"os"
 	"time"
 )
