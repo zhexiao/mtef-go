@@ -26,12 +26,17 @@ type MTEFv5 struct {
 
 	ast   *MtAST
 	nodes []*MtAST
+
+	//是否合法，顺利解析
+	Valid bool
 }
 
 func (m *MTEFv5) readRecord() (err error) {
 	/**
 	读取body的每一行数据并保存到数组里
 	*/
+	//默认设置为合法的，除非遇到不可解析数据
+	m.Valid = true
 
 	//Header
 	_ = binary.Read(m.reader, binary.LittleEndian, &m.mMtefVer)
@@ -154,7 +159,8 @@ func (m *MTEFv5) readRecord() (err error) {
 
 			m.nodes = append(m.nodes, &MtAST{ENCODING_DEF, enc, nil})
 		default:
-			fmt.Println("FUTURE RECORD", record)
+			m.Valid = false
+			log.Println("FUTURE RECORD", record)
 		}
 	}
 
@@ -477,12 +483,18 @@ func (m *MTEFv5) readColorDef(colorDef *MtColorDef) (err error) {
 	return nil
 }
 
-func (m *MTEFv5) Translate() (latex string, err error) {
+func (m *MTEFv5) Translate() string {
 	latexStr, err := m.makeLatex(m.ast)
 	if err != nil {
 		fmt.Println(err)
 	}
-	return latexStr, nil
+
+	if m.Valid {
+		return latexStr
+	} else {
+		return ""
+	}
+
 }
 
 func (m *MTEFv5) makeAST() (err error) {
@@ -1197,6 +1209,7 @@ func (m *MTEFv5) makeLatex(ast *MtAST) (latex string, err error) {
 
 			return buf.String(), nil
 		default:
+			m.Valid = false
 			log.Println("TMPL NOT IMPLEMENT", tmpl.selector, tmpl.variation)
 		}
 		for _, _ast := range ast.children {

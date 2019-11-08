@@ -18,9 +18,6 @@ func Convert(filepath string) string {
 		fmt.Println(err)
 	}
 
-	latex, err := mtef.Translate()
-	if err != nil {
-		fmt.Println(err)
-	}
+	latex := mtef.Translate()
 	return latex
 }

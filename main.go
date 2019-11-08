@@ -68,7 +68,7 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 
 	//转换数据,测试开发使用，需要注释上面的所有代码
