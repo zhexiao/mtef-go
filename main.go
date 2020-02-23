@@ -73,9 +73,9 @@ func main() {
 
 	//转换数据,测试开发使用，需要注释上面的所有代码
 	//startEqn := 1
-	//endEqn := 25
+	//endEqn := 2
 	//for i := startEqn; i <= endEqn; i++ {
-	//	pathName := fmt.Sprintf("E:/workspace/goland/src/mtef-go/assets/oleObject%v.bin", i)
+	//	pathName := fmt.Sprintf("F:/workspace/goproj/src/mtef-go/test/oleObject%v.bin", i)
 	//	latex := eqn.Convert(pathName)
 	//	fmt.Println("num:", i, "latex:", latex)
 	//}
